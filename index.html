@@ -1333,6 +1333,100 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
+
+    /* ============ HERO FEATURES (novo visual) ============ */
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--surface-alt);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-align: left;
+    }
+    .hero-feature-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--danger-bg);
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .hero-feature-icon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      right: 4px;
+      height: 1.5px;
+      background: var(--danger);
+      transform: rotate(-45deg);
+      border-radius: 2px;
+      opacity: 0.8;
+    }
+
+    .hero-social-proof {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 16px 6px 8px;
+      box-shadow: var(--shadow-xs);
+    }
+    .social-avatars {
+      display: flex;
+      align-items: center;
+    }
+    .social-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 2px solid var(--surface);
+      margin-left: -6px;
+    }
+    .social-avatar:first-child { margin-left: 0; }
+    .social-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .social-text strong {
+      font-size: 0.78rem;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .social-text span {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -1366,12 +1460,32 @@
         <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Recuperação Rápida</div>
         <h2 class="hero-title">Recupere seu e-mail<br>em até 3 minutos</h2>
         <p class="hero-sub">Solução inteligente para recuperação de acesso, mesmo sem os métodos antigos:</p>
-        <div class="hero-tags">
-          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem senha</span>
-          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem celular</span>
-          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem email antigo</span>
+        <div class="hero-features">
+          <div class="hero-feature-item">
+            <div class="hero-feature-icon"><i class="fa-solid fa-key"></i></div>
+            <span>Sem a senha atual</span>
+          </div>
+          <div class="hero-feature-item">
+            <div class="hero-feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+            <span>Sem acesso ao celular</span>
+          </div>
+          <div class="hero-feature-item">
+            <div class="hero-feature-icon"><i class="fa-solid fa-envelope"></i></div>
+            <span>Sem e-mail secundário</span>
+          </div>
         </div>
-        <div class="hero-stats"><i class="fa-solid fa-users"></i> +450 mil contas recuperadas</div>
+        <div class="hero-social-proof">
+          <div class="social-avatars">
+            <div class="social-avatar" style="background:#F87171;">A</div>
+            <div class="social-avatar" style="background:#60A5FA;">M</div>
+            <div class="social-avatar" style="background:#34D399;">R</div>
+            <div class="social-avatar" style="background:#FBBF24;">+</div>
+          </div>
+          <div class="social-text">
+            <strong>+450 mil contas</strong>
+            <span>recuperadas com sucesso</span>
+          </div>
+        </div>
       </div>
       <div class="step-indicator">
         <div class="step-number">1</div>
@@ -1486,9 +1600,7 @@
     </div>
   </div>
 
-  <footer class="app-footer">
-    <span class="footer-dots">●</span> Projeto 100% simulação — desenvolvido por <strong>Gean e Matheus</strong> · Turma 22 <span class="footer-dots">●</span>
-  </footer>
+  <!-- rodape removido - reservado pra ser inserido em outro local depois -->
 
   <script>
     (function() {
@@ -1679,7 +1791,8 @@
         const items = [
           "Iniciando processo de recuperação seguro",
           "Localizando conta " + email,
-          "Status da conta: ATIVA",
+          "Verificando status da conta...",
+          "Conta ativa e válida",
           "Verificando dados vinculados",
           "Removendo métodos de recuperação antigos",
           "Desvinculando dispositivos conectados",
