@@ -1313,6 +1313,26 @@
       line-height: 1;
     }
 
+
+    .account-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--info-bg);
+      border: 1px solid var(--info-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      color: var(--info);
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+    .account-notice i {
+      color: var(--info);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
   </style>
 </head>
 <body>
@@ -1355,7 +1375,7 @@
       </div>
       <div class="step-indicator">
         <div class="step-number">1</div>
-        <div class="step-label">Selecione o que aconteceu</div>
+        <div class="step-label">Selecione uma opção</div>
       </div>
       <div class="options-list" id="optionsContainer">
         <div class="option-item" data-value="senha">
@@ -1657,16 +1677,13 @@
         step2FormArea.classList.add('hidden');
         btnRecoverEmail.classList.add('hidden');
         const items = [
-          'Estabelecendo conexão HTTPS segura...',
-          'Handshake TLS 1.3 com servidor de email',
-          'Consultando base de dados...',
-          'Conta localizada — Status: ATIVA',
-          'Descriptografando credenciais (AES-256)',
-          'Removendo telefone de recuperação antigo',
-          'Removendo email de recuperação antigo',
-          'Desvinculando dispositivos conectados',
-          'Desativando verificação em duas etapas',
-          'Finalizando descriptografia'
+          "Iniciando processo de recuperação seguro",
+          "Localizando conta " + email,
+          "Status da conta: ATIVA",
+          "Verificando dados vinculados",
+          "Removendo métodos de recuperação antigos",
+          "Desvinculando dispositivos conectados",
+          "Preparando conta para novos dados"
         ];
         startLoading(loadingAreaStep2, 'Processando recuperação...', items, () => {
           loadingAreaStep2.classList.add('hidden');
@@ -1676,15 +1693,15 @@
               <div class="account-found-header">
                 <div class="success-check"><i class="fa-solid fa-check"></i></div>
                 <div>
-                  <h3 class="account-found-title">Conta localizada</h3>
-                  <p class="account-found-sub">Pronta para recuperação</p>
+                  <h3 class="account-found-title">Dados antigos removidos</h3>
+                  <p class="account-found-sub">Conta pronta para receber novos dados</p>
                 </div>
               </div>
               <div class="account-found-body">
                 <div class="account-detail">
                   <div class="account-avatar"><i class="fa-solid fa-user"></i></div>
                   <div class="account-info">
-                    <h4>${state.userName || "Usuário"}</h4>
+                    <h4>${state.userName || "Conta encontrada"}</h4>
                     <p>${email}</p>
                   </div>
                   <div class="account-provider ${state.userProvider.class}">
@@ -1696,9 +1713,10 @@
                   <div class="account-protocol-label"><i class="fa-solid fa-file-shield"></i> Protocolo</div>
                   <div class="account-protocol-value">${state.protocolNumber}</div>
                 </div>
+                <div class="account-notice"><i class="fa-solid fa-circle-info"></i> Ao continuar, você informará os novos métodos de verificação para recuperar o acesso.</div>
               </div>
             </div>
-            <button class="btn btn-primary mt-3" id="btnContinueStep3">Continuar para recuperação <i class="fa-solid fa-arrow-right"></i></button>
+            <button class="btn btn-primary mt-3" id="btnContinueStep3">Continuar <i class="fa-solid fa-arrow-right"></i></button>
           `;
           document.getElementById('btnContinueStep3').addEventListener('click', () => showStep(3));
           profileStep3.innerHTML = createProfileHTML(state.userName, email);
