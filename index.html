@@ -1521,6 +1521,127 @@
     .header-brand {
       gap: 10px;
     }
+
+    /* ============ LANDING VIEW ============ */
+    .landing-view {
+      background: var(--surface);
+      border-radius: var(--radius-2xl);
+      padding: 32px 24px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(227, 232, 238, 0.6);
+      text-align: center;
+      animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .landing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-medium));
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(1, 53, 93, 0.22);
+      text-transform: uppercase;
+    }
+    .landing-badge i { font-size: 0.7rem; }
+    .landing-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--primary);
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+    .landing-sub {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+    .landing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+      text-align: left;
+    }
+    .landing-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .landing-feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .landing-feature-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+    .landing-feature-text strong {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .landing-feature-text span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .landing-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 18px 8px 10px;
+      margin-bottom: 22px;
+    }
+    .landing-cta {
+      margin-bottom: 20px;
+    }
+    .landing-trust {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .landing-trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .landing-trust-item i {
+      color: var(--success);
+      font-size: 0.75rem;
+    }
   </style>
 </head>
 <body>
@@ -1547,8 +1668,62 @@
   </header>
 
   <main class="main-container" id="mainContent">
-    <!-- Barra de progresso -->
-    <div class="progress-track" id="progressTrack">
+    <!-- LANDING (Step 0) -->
+    <div class="landing-view" id="landingView">
+      <div class="landing-badge"><i class="fa-solid fa-shield-halved"></i> Recuperação Rápida</div>
+      <h1 class="landing-title">Recupere seu e-mail em até 3 minutos</h1>
+      <p class="landing-sub">Solução inteligente para recuperação de acesso, mesmo sem os métodos antigos.</p>
+
+      <div class="landing-features">
+        <div class="landing-feature">
+          <div class="landing-feature-icon"><i class="fa-solid fa-key"></i></div>
+          <div class="landing-feature-text">
+            <strong>Sem a senha atual</strong>
+            <span>Recupere mesmo sem lembrar</span>
+          </div>
+        </div>
+        <div class="landing-feature">
+          <div class="landing-feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+          <div class="landing-feature-text">
+            <strong>Sem acesso ao celular</strong>
+            <span>Não precisa do número antigo</span>
+          </div>
+        </div>
+        <div class="landing-feature">
+          <div class="landing-feature-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="landing-feature-text">
+            <strong>Sem e-mail secundário</strong>
+            <span>Sem depender de recuperação antiga</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-social">
+        <div class="social-avatars">
+          <div class="social-avatar" style="background:#F87171;">A</div>
+          <div class="social-avatar" style="background:#60A5FA;">M</div>
+          <div class="social-avatar" style="background:#34D399;">R</div>
+          <div class="social-avatar" style="background:#FBBF24;">+</div>
+        </div>
+        <div class="social-text">
+          <strong>+450 mil contas</strong>
+          <span>recuperadas com sucesso</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary landing-cta" id="btnStartRecovery">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Começar recuperação
+      </button>
+
+      <div class="landing-trust">
+        <div class="landing-trust-item"><i class="fa-solid fa-lock"></i> Processo seguro</div>
+        <div class="landing-trust-item"><i class="fa-solid fa-bolt"></i> Rápido</div>
+        <div class="landing-trust-item"><i class="fa-solid fa-shield-check"></i> Confiável</div>
+      </div>
+    </div>
+
+    <!-- Barra de progresso (escondida na landing) -->
+    <div class="progress-track hidden" id="progressTrack">
       <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
       <div class="progress-dot active" data-step="1"><span>1</span></div>
       <div class="progress-dot" data-step="2"><span>2</span></div>
@@ -1557,8 +1732,8 @@
     </div>
 
     <!-- STEP 1 -->
-    <div class="card" id="step1Card">
-      <div class="hero-section">
+    <div class="card hidden" id="step1Card">
+      <div class="step-indicator">
         <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Recuperação Rápida</div>
         <h2 class="hero-title">Recupere seu e-mail<br>em até 3 minutos</h2>
         <p class="hero-sub">Solução inteligente para recuperação de acesso, mesmo sem os métodos antigos:</p>
@@ -1922,6 +2097,13 @@
       }
 
       // Event listeners
+      document.getElementById("btnStartRecovery")?.addEventListener("click", () => {
+        document.getElementById("landingView").classList.add("hidden");
+        document.getElementById("progressTrack").classList.remove("hidden");
+        document.getElementById("step1Card").classList.remove("hidden");
+        scrollToTop();
+      });
+
       optionItems.forEach(item => {
         item.addEventListener('click', () => {
           optionItems.forEach(i => i.classList.remove('selected'));
