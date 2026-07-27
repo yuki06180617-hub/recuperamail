@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>RecuperaMail · Recuperação Inteligente de Email</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      /* Paleta institucional refinada - inspirada em produtos enterprise (Stripe, Vercel, Linear) */
+      --primary: #0A2540;
+      --primary-dark: #061829;
+      --primary-light: #E3EBF3;
+      --primary-medium: #1A4B7A;
+      --accent: #635BFF;
+      --accent-hover: #4F46E5;
+      --accent-light: #EEEDFF;
+      --bg: #F6F9FC;
+      --bg-elevated: #FCFDFE;
+      --surface: #FFFFFF;
+      --surface-alt: #F7FAFC;
+      --text: #0A2540;
+      --text-secondary: #425466;
+      --text-muted: #697386;
+      --text-subtle: #8B95A5;
+      --border: #E3E8EE;
+      --border-hover: #C1CBD6;
+      --border-focus: rgba(99, 91, 255, 0.35);
+      --success: #0E7C4A;
+      --success-bg: #E8F6EF;
+      --success-border: #A7E3C4;
+      --warning: #B54708;
+      --warning-bg: #FEF6E7;
+      --warning-border: #FCD9A5;
+      --danger: #B42318;
+      --danger-bg: #FEF1F0;
+      --danger-border: #FCA5A0;
+      --info: #175CD3;
+      --info-bg: #E8F1FE;
+      --info-border: #A5CBFA;
+
+      --shadow-xs: 0 0 0 1px rgba(10, 37, 64, 0.05), 0 1px 1px rgba(10, 37, 64, 0.04);
+      --shadow-sm: 0 0 0 1px rgba(10, 37, 64, 0.06), 0 1px 3px rgba(10, 37, 64, 0.06);
+      --shadow: 0 0 0 1px rgba(10, 37, 64, 0.06), 0 6px 20px -6px rgba(10, 37, 64, 0.10);
+      --shadow-lg: 0 0 0 1px rgba(10, 37, 64, 0.06), 0 12px 30px -8px rgba(10, 37, 64, 0.15);
+      --shadow-focus: 0 0 0 4px var(--border-focus);
+      --shadow-elevation: 0 20px 40px -12px rgba(10, 37, 64, 0.18);
+
+      --radius-xs: 6px;
+      --radius-sm: 8px;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 24px;
+
+      --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.011em;
+      background-image:
+        radial-gradient(ellipse 800px 400px at 50% -100px, rgba(99, 91, 255, 0.06), transparent),
+        radial-gradient(ellipse 600px 300px at 20% 100%, rgba(10, 37, 64, 0.03), transparent);
+    }
+
+    /* ============ HEADER ============ */
+    .app-header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(227, 232, 238, 0.6);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .header-brand-fallback {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-medium));
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(10, 37, 64, 0.2);
+    }
+
+    .brand-text {
+      font-weight: 800;
+      font-size: 0.98rem;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .brand-text span { color: var(--accent); }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface-alt);
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+    .header-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(14, 124, 74, 0.4); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(14, 124, 74, 0); }
+    }
+
+    /* ============ MAIN CONTAINER ============ */
+    .main-container {
+      flex: 1;
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ============ PROGRESS ============ */
+    .progress-track {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+      position: relative;
+    }
+    .progress-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 22px;
+      right: 22px;
+      height: 2px;
+      background: var(--border);
+      transform: translateY(-50%);
+      border-radius: 4px;
+    }
+    .progress-fill {
+      position: absolute;
+      top: 50%;
+      left: 22px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transform: translateY(-50%);
+      border-radius: 4px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .progress-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      z-index: 2;
+      transition: var(--transition);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .progress-dot.active {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 0 0 5px rgba(99, 91, 255, 0.15), 0 4px 12px rgba(99, 91, 255, 0.3);
+      transform: scale(1.1);
+    }
+    .progress-dot.done {
+      border-color: var(--success);
+      background: var(--success);
+      color: white;
+    }
+    .progress-dot.done::after { content: '✓'; font-weight: 700; font-family: 'Inter', sans-serif; font-size: 0.85rem; }
+    .progress-dot.done span { display: none; }
+
+    /* ============ CARD ============ */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-2xl);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(227, 232, 238, 0.6);
+      animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero-section {
+      text-align: center;
+      margin-bottom: 26px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-medium));
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(10, 37, 64, 0.22);
+      text-transform: uppercase;
+    }
+    .hero-badge i { font-size: 0.7rem; }
+
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--primary);
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+    .hero-sub {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--danger-border);
+    }
+    .tag i { font-size: 0.55rem; }
+
+    .hero-stats {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 8px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--success-border);
+    }
+
+    /* ============ STEP INDICATOR ============ */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 10px rgba(99, 91, 255, 0.25);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .step-label {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--text);
+      letter-spacing: -0.015em;
+    }
+
+    /* ============ OPTIONS ============ */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .option-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(99, 91, 255, 0.03), transparent);
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+    .option-item:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .option-item.selected {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.08), 0 4px 12px rgba(99, 91, 255, 0.1);
+    }
+    .option-item.selected::before { opacity: 1; }
+
+    .option-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: transparent;
+      flex-shrink: 0;
+      transition: var(--transition);
+      background: var(--surface);
+    }
+    .option-item.selected .option-radio {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.15);
+    }
+    .option-content {
+      flex: 1;
+      font-weight: 500;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    /* ============ FORMS ============ */
+    .input-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      font-size: 0.95rem;
+      z-index: 1;
+      pointer-events: none;
+      transition: var(--transition);
+    }
+    .form-input {
+      width: 100%;
+      padding: 14px 14px 14px 42px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      outline: none;
+      transition: var(--transition);
+      letter-spacing: -0.011em;
+    }
+    .form-input::placeholder {
+      color: var(--text-subtle);
+      font-weight: 400;
+    }
+    .form-input:hover {
+      border-color: var(--border-hover);
+    }
+    .form-input:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: var(--shadow-focus);
+    }
+    .form-input:focus + .input-icon,
+    .input-group:focus-within .input-icon {
+      color: var(--accent);
+    }
+
+    /* ============ CHECKBOX ============ */
+    .checkbox-single {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--surface-alt);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      margin: 6px 0 12px;
+    }
+    .checkbox-single:hover {
+      border-color: var(--border-hover);
+      background: var(--surface);
+    }
+    .checkbox-single.checked {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      color: var(--text);
+    }
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      color: transparent;
+      transition: var(--transition);
+      flex-shrink: 0;
+      background: var(--surface);
+    }
+    .checkbox-single.checked .custom-checkbox {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ============ BUTTONS ============ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 22px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: -0.011em;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), transparent);
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+    .btn:hover::before { opacity: 1; }
+    .btn:active { transform: scale(0.985); }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent), var(--accent-hover));
+      color: white;
+      box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35), 0 1px 2px rgba(99, 91, 255, 0.2);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(99, 91, 255, 0.4), 0 2px 4px rgba(99, 91, 255, 0.2);
+    }
+
+    .btn-accent {
+      background: linear-gradient(180deg, var(--warning), #92400e);
+      color: white;
+      box-shadow: 0 4px 14px rgba(181, 71, 8, 0.3);
+    }
+    .btn-success {
+      background: linear-gradient(180deg, var(--success), #086c3f);
+      color: white;
+      box-shadow: 0 4px 14px rgba(14, 124, 74, 0.3);
+    }
+    .btn-link {
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 10px;
+      font-size: 0.85rem;
+      width: auto;
+      margin: 0 auto;
+      display: flex;
+    }
+    .btn-link:hover { color: var(--text); }
+
+    /* ============ PROVIDER BADGE ============ */
+    .provider-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      width: 100%;
+      justify-content: center;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+    .provider-badge i { font-size: 1rem; }
+    .provider-gmail { background: #FEEEEC; color: #C5221F; border-color: #F8B4AF; }
+    .provider-yahoo { background: #F0E5F5; color: #6001d2; border-color: #D7BFE5; }
+    .provider-outlook, .provider-hotmail { background: #E4F1FE; color: #0078D4; border-color: #A5CBFA; }
+    .provider-icloud { background: #F1F1F5; color: #1D1D1F; border-color: #C7C7CE; }
+    .provider-protonmail { background: #E8F0EA; color: #1B5E20; border-color: #A5CBAF; }
+    .provider-default { background: var(--surface-alt); color: var(--text-secondary); border-color: var(--border); }
+
+    /* ============ PROFILE ROW ============ */
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--surface-alt);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+    .avatar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(99, 91, 255, 0.25);
+    }
+    .avatar-info { flex: 1; min-width: 0; }
+    .avatar-info h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      letter-spacing: -0.015em;
+    }
+    .avatar-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ============ RESULT CARD ============ */
+    .result-card {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .result-card p { font-size: 0.9rem; }
+
+    /* ============ PROTOCOL BOX ============ */
+    .protocol-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .protocol-box i {
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+    .protocol-box small {
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .protocol-box strong {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ============ LOADING ============ */
+    .loading-container {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+    }
+    .loading-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .loading-header i { font-size: 1rem; }
+    .loading-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .loading-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      animation: fadeSlide 0.35s ease;
+      font-weight: 500;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .status-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .status-dot.spinning {
+      border-top-color: var(--accent);
+      animation: spin 0.7s linear infinite;
+    }
+    .status-dot.done {
+      border-color: var(--success);
+      background: var(--success);
+    }
+    .status-dot.done::after {
+      content: '✓';
+      color: white;
+      font-weight: 700;
+      font-size: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .loading-item.done { color: var(--text); font-weight: 500; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============ SUCCESS HERO ============ */
+    .success-hero {
+      background: linear-gradient(135deg, var(--success-bg), #D0F0DE);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .success-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.4), transparent);
+      pointer-events: none;
+    }
+    .success-hero .icon-lg {
+      font-size: 3rem;
+      color: var(--success);
+      margin-bottom: 10px;
+      filter: drop-shadow(0 4px 8px rgba(14, 124, 74, 0.2));
+    }
+    .success-hero h2 {
+      font-weight: 800;
+      color: #054e34;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    /* ============ INFO GRID ============ */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      background: var(--surface-alt);
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: var(--text);
+      padding: 4px 0;
+    }
+    .info-row i {
+      color: var(--accent);
+      width: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    /* ============ ALERTS ============ */
+    .alert {
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-width: 1px;
+      border-style: solid;
+    }
+    .alert-success {
+      background: var(--success-bg);
+      color: #054E34;
+      border-color: var(--success-border);
+    }
+    .alert-error {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+
+    /* ============ MODAL ============ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 37, 64, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-dialog {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-elevation);
+      animation: modalIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-dialog h3 {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin: 12px 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .modal-dialog > p {
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+
+    /* ============ FOOTER ============ */
+    .app-footer {
+      background: var(--primary);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 20px 16px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .app-footer strong { color: white; font-weight: 700; }
+    .app-footer .footer-dots {
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    /* ============ UTILS ============ */
+    .hidden { display: none !important; }
+    .mt-1 { margin-top: 8px; }
+    .mt-2 { margin-top: 14px; }
+    .mt-3 { margin-top: 20px; }
+    .mt-4 { margin-top: 26px; }
+    .divider { border-top: 1px solid var(--border); margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-brand">
+      <img src="https://recuperamail.online/images/logo.png" alt="RecuperaMail" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="header-brand-fallback">
+        <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <span class="brand-text">RECUPERA<span>MAIL</span></span>
+      </div>
+    </div>
+    <div class="header-badge">
+      <span class="dot"></span>
+      Sistema Ativo
+    </div>
+  </header>
+
+  <main class="main-container" id="mainContent">
+    <!-- Barra de progresso -->
+    <div class="progress-track" id="progressTrack">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+      <div class="progress-dot active" data-step="1"><span>1</span></div>
+      <div class="progress-dot" data-step="2"><span>2</span></div>
+      <div class="progress-dot" data-step="3"><span>3</span></div>
+      <div class="progress-dot" data-step="4"><span>4</span></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="card" id="step1Card">
+      <div class="hero-section">
+        <div class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Recuperação Rápida</div>
+        <h2 class="hero-title">Recupere seu e-mail<br>em até 3 minutos</h2>
+        <p class="hero-sub">Solução inteligente para recuperação de acesso, mesmo sem os métodos antigos:</p>
+        <div class="hero-tags">
+          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem senha</span>
+          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem celular</span>
+          <span class="tag"><i class="fa-solid fa-circle-xmark"></i> Sem email antigo</span>
+        </div>
+        <div class="hero-stats"><i class="fa-solid fa-users"></i> +450 mil contas recuperadas</div>
+      </div>
+      <div class="step-indicator">
+        <div class="step-number">1</div>
+        <div class="step-label">Selecione o que aconteceu</div>
+      </div>
+      <div class="options-list" id="optionsContainer">
+        <div class="option-item" data-value="senha">
+          <div class="option-radio"><i class="fa-solid fa-check"></i></div>
+          <span class="option-content">Você esqueceu sua senha</span>
+        </div>
+        <div class="option-item" data-value="email-recuperacao">
+          <div class="option-radio"><i class="fa-solid fa-check"></i></div>
+          <span class="option-content">Você perdeu o acesso ao email de recuperação</span>
+        </div>
+        <div class="option-item" data-value="telefone">
+          <div class="option-radio"><i class="fa-solid fa-check"></i></div>
+          <span class="option-content">Você perdeu o acesso ao número de telefone de recuperação</span>
+        </div>
+        <div class="option-item" data-value="dispositivo">
+          <div class="option-radio"><i class="fa-solid fa-check"></i></div>
+          <span class="option-content">Você perdeu o dispositivo e não consegue confirmar sua identidade</span>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" id="btnNextStep1">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card hidden" id="step2Card">
+      <div class="step-indicator"><div class="step-number">2</div><div class="step-label">Localizar sua conta</div></div>
+      <div id="step2FormArea">
+        <label class="input-label">Digite o e-mail que deseja recuperar</label>
+        <div class="input-group">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input type="email" class="form-input" id="emailInput" placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div id="providerDisplay" class="mt-1"></div>
+        <button class="btn btn-primary mt-3" id="btnRecoverEmail"><i class="fa-solid fa-magnifying-glass"></i> Localizar conta</button>
+      </div>
+      <div id="loadingAreaStep2" class="hidden mt-2"></div>
+      <div id="step2ResultArea" class="hidden mt-2"></div>
+      <button class="btn btn-link mt-2" id="btnBackFromStep2"><i class="fa-solid fa-chevron-left"></i> Voltar</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card hidden" id="step3Card">
+      <div class="step-indicator"><div class="step-number">3</div><div class="step-label">Novos métodos de verificação</div></div>
+      <div id="profileStep3" class="profile-row"></div>
+      <div id="step3Form" class="mt-2">
+        <label class="input-label">Novo número de telefone</label>
+        <div class="input-group">
+          <i class="fa-solid fa-mobile-screen-button input-icon"></i>
+          <input type="tel" class="form-input" id="phoneInput" placeholder="(11) 00000-0000" maxlength="15">
+        </div>
+        <label class="input-label">Novo e-mail alternativo</label>
+        <div class="input-group">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input type="email" class="form-input" id="altEmailInput" placeholder="email.alternativo@exemplo.com">
+        </div>
+        <div class="checkbox-single" id="checkAccess">
+          <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+          <span>Confirmo que tenho acesso a este telefone e email</span>
+        </div>
+        <button class="btn btn-primary" id="btnSaveAllData"><i class="fa-solid fa-floppy-disk"></i> Salvar novos dados</button>
+        <div id="step3Feedback" class="mt-1"></div>
+      </div>
+      <div id="loadingAreaStep3" class="hidden mt-2"></div>
+      <div id="step3Result" class="hidden mt-2"></div>
+      <button class="btn btn-link mt-2" id="btnBackFromStep3"><i class="fa-solid fa-chevron-left"></i> Voltar</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card hidden" id="step4Card">
+      <div class="success-hero">
+        <div class="icon-lg"><i class="fa-solid fa-shield-check"></i></div>
+        <h2>Recuperação Concluída</h2>
+        <p style="color:#054e34; font-size:0.92rem;">Sua conta foi recuperada com sucesso e os novos métodos foram vinculados.</p>
+      </div>
+      <div class="info-grid">
+        <div class="info-row"><i class="fa-solid fa-envelope"></i> <span id="infoEmail"></span></div>
+        <div class="info-row"><i class="fa-solid fa-mobile-screen-button"></i> <span id="infoPhone"></span></div>
+        <div class="info-row"><i class="fa-solid fa-envelope-circle-check"></i> <span id="infoAltEmail"></span></div>
+        <div class="info-row" id="infoProviderRow"></div>
+        <div class="info-row"><i class="fa-solid fa-file-shield"></i> <span id="infoProtocol" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;"></span></div>
+      </div>
+      <div class="alert alert-success"><i class="fa-solid fa-circle-check"></i> Seu novo número e email alternativo foram vinculados como métodos de verificação.</div>
+      <p style="font-size:0.82rem; color:var(--text-secondary); text-align:center; margin-top:14px; line-height: 1.5;">Após finalizar, acesse sua conta ou redefina sua senha para receber o código de verificação.</p>
+      <div id="step4NormalContent" class="mt-3">
+        <button class="btn btn-success" id="btnSimulateFinish"><i class="fa-solid fa-rocket"></i> Finalizar Recuperação</button>
+        <button class="btn btn-link mt-1" id="btnBackFromStep4"><i class="fa-solid fa-chevron-left"></i> Voltar</button>
+      </div>
+      <div id="step4DiscountContent" class="hidden">
+        <div class="success-hero" style="background: linear-gradient(135deg, var(--warning-bg), #FDE68A); border-color: var(--warning-border);">
+          <div class="icon-lg" style="color: var(--warning);"><i class="fa-solid fa-tags"></i></div>
+          <h2 style="color: #78350F;">Oferta Especial</h2>
+          <p style="color: #78350F; font-size: 0.92rem;">Última chance com desconto exclusivo:</p>
+          <p style="text-decoration: line-through; color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">R$ 14,90</p>
+          <p style="font-size: 2.2rem; font-weight: 900; color: var(--primary); letter-spacing: -0.03em;">R$ 7,90</p>
+        </div>
+        <button class="btn btn-accent" id="btnSimulateDiscount"><i class="fa-solid fa-tags"></i> Recuperar com Desconto</button>
+        <button class="btn btn-link mt-1" id="btnBackFromDiscount">Voltar</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-dialog">
+      <div style="font-size: 2.6rem; color: var(--warning);"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <h3>Deseja voltar?</h3>
+      <p style="color: var(--text-secondary);">O progresso desta etapa será perdido.</p>
+      <button class="btn btn-primary" id="btnConfirmNo" style="margin-bottom: 8px;">Continuar recuperação</button>
+      <button class="btn btn-link" id="btnConfirmYes" style="color: var(--danger);">Sim, voltar</button>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <span class="footer-dots">●</span> Projeto 100% simulação — desenvolvido por <strong>Gean e Matheus</strong> · Turma 22 <span class="footer-dots">●</span>
+  </footer>
+
+  <script>
+    (function() {
+      const state = {
+        currentStep: 1,
+        selectedOption: null,
+        userEmail: '',
+        userName: '',
+        userProvider: null,
+        newPhone: '',
+        newAltEmail: '',
+        protocolNumber: '',
+        checkboxAccess: false,
+        pendingBackAction: null
+      };
+
+      const providerMap = {
+        'gmail.com': { name: 'Gmail', icon: 'fa-google', class: 'provider-gmail' },
+        'yahoo.com': { name: 'Yahoo', icon: 'fa-yahoo', class: 'provider-yahoo' },
+        'outlook.com': { name: 'Outlook', icon: 'fa-microsoft', class: 'provider-outlook' },
+        'hotmail.com': { name: 'Hotmail', icon: 'fa-microsoft', class: 'provider-hotmail' },
+        'live.com': { name: 'Outlook', icon: 'fa-microsoft', class: 'provider-outlook' },
+        'icloud.com': { name: 'iCloud', icon: 'fa-apple', class: 'provider-icloud' },
+        'protonmail.com': { name: 'ProtonMail', icon: 'fa-shield-halved', class: 'provider-protonmail' },
+      };
+
+      function detectProvider(email) {
+        const domain = email.split('@')[1]?.toLowerCase() || '';
+        return providerMap[domain] || { name: 'Provedor', icon: 'fa-envelope', class: 'provider-default' };
+      }
+
+      function generateProtocol() {
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const random = Math.floor(Math.random() * 9000) + 1000;
+        return `RCV-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}-${random}`;
+      }
+
+      // DOM elements
+      const step1Card = document.getElementById('step1Card');
+      const step2Card = document.getElementById('step2Card');
+      const step3Card = document.getElementById('step3Card');
+      const step4Card = document.getElementById('step4Card');
+      const progressFill = document.getElementById('progressFill');
+      const progressDots = document.querySelectorAll('.progress-dot');
+      const optionItems = document.querySelectorAll('.option-item');
+      const btnNextStep1 = document.getElementById('btnNextStep1');
+      const emailInput = document.getElementById('emailInput');
+      const providerDisplay = document.getElementById('providerDisplay');
+      const step2FormArea = document.getElementById('step2FormArea');
+      const loadingAreaStep2 = document.getElementById('loadingAreaStep2');
+      const step2ResultArea = document.getElementById('step2ResultArea');
+      const btnRecoverEmail = document.getElementById('btnRecoverEmail');
+      const btnBackFromStep2 = document.getElementById('btnBackFromStep2');
+      const profileStep3 = document.getElementById('profileStep3');
+      const phoneInput = document.getElementById('phoneInput');
+      const altEmailInput = document.getElementById('altEmailInput');
+      const checkAccess = document.getElementById('checkAccess');
+      const btnSaveAllData = document.getElementById('btnSaveAllData');
+      const step3Feedback = document.getElementById('step3Feedback');
+      const step3Form = document.getElementById('step3Form');
+      const loadingAreaStep3 = document.getElementById('loadingAreaStep3');
+      const step3Result = document.getElementById('step3Result');
+      const btnBackFromStep3 = document.getElementById('btnBackFromStep3');
+      const infoEmail = document.getElementById('infoEmail');
+      const infoPhone = document.getElementById('infoPhone');
+      const infoAltEmail = document.getElementById('infoAltEmail');
+      const infoProviderRow = document.getElementById('infoProviderRow');
+      const infoProtocol = document.getElementById('infoProtocol');
+      const step4NormalContent = document.getElementById('step4NormalContent');
+      const step4DiscountContent = document.getElementById('step4DiscountContent');
+      const btnSimulateFinish = document.getElementById('btnSimulateFinish');
+      const btnSimulateDiscount = document.getElementById('btnSimulateDiscount');
+      const btnBackFromStep4 = document.getElementById('btnBackFromStep4');
+      const btnBackFromDiscount = document.getElementById('btnBackFromDiscount');
+      const confirmModal = document.getElementById('confirmModal');
+      const btnConfirmYes = document.getElementById('btnConfirmYes');
+      const btnConfirmNo = document.getElementById('btnConfirmNo');
+
+      phoneInput.addEventListener('input', (e) => {
+        let cleaned = e.target.value.replace(/\D/g, '');
+        if (cleaned.length > 11) cleaned = cleaned.slice(0, 11);
+        if (cleaned.length <= 2) e.target.value = cleaned ? `(${cleaned}` : '';
+        else if (cleaned.length <= 7) e.target.value = `(${cleaned.slice(0,2)}) ${cleaned.slice(2)}`;
+        else e.target.value = `(${cleaned.slice(0,2)}) ${cleaned.slice(2,7)}-${cleaned.slice(7,11)}`;
+      });
+
+      checkAccess.addEventListener('click', () => {
+        state.checkboxAccess = !state.checkboxAccess;
+        checkAccess.classList.toggle('checked', state.checkboxAccess);
+      });
+
+      function updateProgress(step) {
+        progressDots.forEach((dot, i) => {
+          const s = i+1;
+          dot.classList.remove('active','done');
+          if (s < step) dot.classList.add('done');
+          if (s === step) dot.classList.add('active');
+        });
+        progressFill.style.width = `${((step-1)/3)*100}%`;
+      }
+
+      function showStep(n) {
+        [step1Card, step2Card, step3Card, step4Card].forEach(c => c.classList.add('hidden'));
+        const cards = {1: step1Card, 2: step2Card, 3: step3Card, 4: step4Card};
+        cards[n]?.classList.remove('hidden');
+        state.currentStep = n;
+        updateProgress(n);
+        if (n === 2 && step2FormArea.classList.contains('hidden')) {
+          step2FormArea.classList.remove('hidden');
+          step2ResultArea.classList.add('hidden');
+          loadingAreaStep2.classList.add('hidden');
+          btnRecoverEmail.classList.remove('hidden');
+        }
+        setTimeout(() => cards[n]?.scrollIntoView({behavior:'smooth', block:'center'}), 100);
+      }
+
+      function createProfileHTML(name, email) {
+        return `<div class="avatar-icon"><i class="fa-solid fa-user"></i></div><div class="avatar-info"><h4>${name||'Usuário'}</h4><p>${email||''}</p></div>`;
+      }
+
+      function showConfirm(action) {
+        state.pendingBackAction = action;
+        confirmModal.classList.remove('hidden');
+      }
+      function hideConfirm() {
+        confirmModal.classList.add('hidden');
+        state.pendingBackAction = null;
+      }
+
+      function startLoading(container, header, items, onComplete) {
+        container.classList.remove('hidden');
+        container.innerHTML = `<div class="loading-container"><div class="loading-header"><i class="fa-solid fa-spinner" style="color:var(--accent);"></i> ${header}</div><div class="loading-list" id="loadList"></div></div>`;
+        const list = container.querySelector('#loadList');
+        let idx = 0;
+        function next() {
+          if (idx >= items.length) {
+            container.querySelector('.loading-header').innerHTML = '<i class="fa-solid fa-circle-check" style="color:var(--success);"></i> Concluído';
+            if (onComplete) setTimeout(onComplete, 500);
+            return;
+          }
+          const div = document.createElement('div');
+          div.className = 'loading-item';
+          div.innerHTML = `<div class="status-dot spinning"></div><span>${items[idx]}</span>`;
+          list.appendChild(div);
+          const delay = items[idx].includes('Estabelecendo') || items[idx].includes('Handshake') ? 1800 : 1100 + Math.random()*700;
+          setTimeout(() => {
+            div.querySelector('.status-dot').className = 'status-dot done';
+            div.classList.add('done');
+            idx++;
+            setTimeout(next, 200);
+          }, delay);
+        }
+        next();
+      }
+
+      // Event listeners
+      optionItems.forEach(item => {
+        item.addEventListener('click', () => {
+          optionItems.forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          state.selectedOption = item.dataset.value;
+        });
+      });
+
+      btnNextStep1.addEventListener('click', () => {
+        if (!state.selectedOption) { alert('Selecione uma opção.'); return; }
+        showStep(2);
+      });
+
+      emailInput.addEventListener('input', () => {
+        const email = emailInput.value.trim();
+        if (email.includes('@')) {
+          const p = detectProvider(email);
+          providerDisplay.innerHTML = `<div class="provider-badge ${p.class}"><i class="fa-brands ${p.icon}"></i> Provedor: ${p.name}</div>`;
+        } else providerDisplay.innerHTML = '';
+      });
+
+      btnRecoverEmail.addEventListener('click', () => {
+        const email = emailInput.value.trim();
+        if (!email || !email.includes('@')) { alert('Email inválido'); return; }
+        state.userEmail = email;
+        state.userName = email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) || 'Usuário';
+        state.userProvider = detectProvider(email);
+        state.protocolNumber = generateProtocol();
+        step2FormArea.classList.add('hidden');
+        btnRecoverEmail.classList.add('hidden');
+        const items = [
+          'Estabelecendo conexão HTTPS segura...',
+          'Handshake TLS 1.3 com servidor de email',
+          'Consultando base de dados...',
+          'Conta localizada — Status: ATIVA',
+          'Descriptografando credenciais (AES-256)',
+          'Removendo telefone de recuperação antigo',
+          'Removendo email de recuperação antigo',
+          'Desvinculando dispositivos conectados',
+          'Desativando verificação em duas etapas',
+          'Finalizando descriptografia'
+        ];
+        startLoading(loadingAreaStep2, 'Processando recuperação...', items, () => {
+          loadingAreaStep2.classList.add('hidden');
+          step2ResultArea.classList.remove('hidden');
+          step2ResultArea.innerHTML = `
+            <div class="result-card"><i class="fa-solid fa-shield-check" style="font-size:2rem; color:var(--success);"></i><p style="font-weight:700; margin-top: 8px;">Conta Descriptografada</p><p style="color:#065f46;">Pronta para recuperação</p></div>
+            <div class="profile-row">${createProfileHTML(state.userName, email)}</div>
+            <div class="provider-badge ${state.userProvider.class} mt-1"><i class="fa-brands ${state.userProvider.icon}"></i> ${state.userProvider.name}</div>
+            <div class="protocol-box"><i class="fa-solid fa-file-shield"></i><div><small>PROTOCOLO</small><br><strong>${state.protocolNumber}</strong></div></div>
+            <button class="btn btn-primary mt-3" id="btnContinueStep3">Continuar para recuperação <i class="fa-solid fa-arrow-right"></i></button>
+          `;
+          document.getElementById('btnContinueStep3').addEventListener('click', () => showStep(3));
+          profileStep3.innerHTML = createProfileHTML(state.userName, email);
+        });
+      });
+
+      btnBackFromStep2.addEventListener('click', () => {
+        if (step2FormArea.classList.contains('hidden')) {
+          step2FormArea.classList.remove('hidden');
+          step2ResultArea.classList.add('hidden');
+          loadingAreaStep2.classList.add('hidden');
+          btnRecoverEmail.classList.remove('hidden');
+          return;
+        }
+        showConfirm(() => showStep(1));
+      });
+
+      btnSaveAllData.addEventListener('click', () => {
+        const phone = phoneInput.value.trim();
+        const altEmail = altEmailInput.value.trim();
+        if (phone.replace(/\D/g,'').length < 10 || !altEmail.includes('@')) {
+          step3Feedback.innerHTML = '<div class="alert alert-error"><i class="fa-solid fa-triangle-exclamation"></i> Preencha todos os campos corretamente.</div>';
+          return;
+        }
+        if (!state.checkboxAccess) {
+          step3Feedback.innerHTML = '<div class="alert alert-error"><i class="fa-solid fa-triangle-exclamation"></i> Confirme o acesso aos novos métodos.</div>';
+          return;
+        }
+        state.newPhone = phone;
+        state.newAltEmail = altEmail;
+        step3Form.classList.add('hidden');
+        btnBackFromStep3.classList.add('hidden');
+        const items = [
+          'Estabelecendo conexão segura...',
+          'Verificando integridade dos dados',
+          `Inserindo telefone ${phone}`,
+          `Inserindo email alternativo ${altEmail}`,
+          'Sincronizando com servidor',
+          'Confirmando vínculo dos métodos',
+          'Vinculação concluída'
+        ];
+        startLoading(loadingAreaStep3, 'Vinculando novos métodos...', items, () => {
+          loadingAreaStep3.classList.add('hidden');
+          step3Result.classList.remove('hidden');
+          step3Result.innerHTML = '<div class="alert alert-success"><i class="fa-solid fa-circle-check"></i> Métodos vinculados com sucesso!</div>';
+          btnBackFromStep3.classList.remove('hidden');
+          infoEmail.textContent = state.userEmail;
+          infoPhone.textContent = state.newPhone;
+          infoAltEmail.textContent = state.newAltEmail;
+          infoProtocol.textContent = state.protocolNumber;
+          infoProviderRow.innerHTML = `<i class="fa-brands ${state.userProvider.icon}"></i> Provedor: ${state.userProvider.name}`;
+          showStep(4);
+        });
+      });
+
+      btnBackFromStep3.addEventListener('click', () => {
+        if (step3Form.classList.contains('hidden')) {
+          step3Form.classList.remove('hidden');
+          loadingAreaStep3.classList.add('hidden');
+          step3Result.classList.add('hidden');
+          btnBackFromStep3.classList.remove('hidden');
+          return;
+        }
+        showConfirm(() => showStep(2));
+      });
+
+      btnSimulateFinish.addEventListener('click', () => {
+        alert('✅ SIMULAÇÃO CONCLUÍDA!\nProtocolo: '+state.protocolNumber);
+        step4NormalContent.classList.add('hidden');
+        step4DiscountContent.classList.remove('hidden');
+      });
+      btnSimulateDiscount.addEventListener('click', () => alert('✅ Simulação com desconto finalizada.'));
+      btnBackFromStep4.addEventListener('click', () => showConfirm(() => showStep(3)));
+      btnBackFromDiscount.addEventListener('click', () => {
+        step4DiscountContent.classList.add('hidden');
+        step4NormalContent.classList.remove('hidden');
+      });
+
+      btnConfirmYes.addEventListener('click', () => {
+        hideConfirm();
+        if (state.pendingBackAction) state.pendingBackAction();
+      });
+      btnConfirmNo.addEventListener('click', hideConfirm);
+
+      updateProgress(1);
+    })();
+  </script>
+</body>
+</html>
