@@ -1603,20 +1603,65 @@
 
     <!-- STEP 4 -->
     <div class="card hidden" id="step4Card">
-      <div class="success-hero">
-        <div class="icon-lg"><i class="fa-solid fa-shield-check"></i></div>
-        <h2>Recuperação Concluída</h2>
-        <p style="color:#054e34; font-size:0.92rem;">Sua conta foi recuperada com sucesso e os novos métodos foram vinculados.</p>
+      <div class="completion-hero-compact">
+        <div class="completion-icon-compact"><i class="fa-solid fa-shield-check"></i></div>
+        <div class="completion-text-compact">
+          <h2>Recuperação concluída</h2>
+          <p>Novos métodos vinculados com sucesso</p>
+        </div>
       </div>
-      <div class="info-grid">
-        <div class="info-row"><i class="fa-solid fa-envelope"></i> <span id="infoEmail"></span></div>
-        <div class="info-row"><i class="fa-solid fa-mobile-screen-button"></i> <span id="infoPhone"></span></div>
-        <div class="info-row"><i class="fa-solid fa-envelope-circle-check"></i> <span id="infoAltEmail"></span></div>
-        <div class="info-row" id="infoProviderRow"></div>
-        <div class="info-row"><i class="fa-solid fa-file-shield"></i> <span id="infoProtocol" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;"></span></div>
+
+      <div class="summary-card">
+        <div class="summary-card-header">
+          <div class="summary-card-title"><i class="fa-solid fa-list-check"></i> Resumo</div>
+          <div class="summary-badge"><span class="dot"></span> Ativa</div>
+        </div>
+        <div class="summary-list">
+          <div class="summary-item">
+            <div class="summary-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="summary-content">
+              <div class="summary-label">E-mail Recuperado</div>
+              <div class="summary-value" id="infoEmail"></div>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div class="summary-content">
+              <div class="summary-label">Novo Telefone</div>
+              <div class="summary-value" id="infoPhone"></div>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
+            <div class="summary-content">
+              <div class="summary-label">Novo E-mail Alternativo</div>
+              <div class="summary-value" id="infoAltEmail"></div>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon"><i class="fa-solid fa-globe"></i></div>
+            <div class="summary-content">
+              <div class="summary-label">Provedor</div>
+              <div class="summary-value" id="infoProviderRow"></div>
+            </div>
+          </div>
+          <div class="summary-item protocol-item">
+            <div class="summary-icon"><i class="fa-solid fa-file-shield"></i></div>
+            <div class="summary-content">
+              <div class="summary-label">Protocolo</div>
+              <div class="summary-value mono" id="infoProtocol"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="alert alert-success"><i class="fa-solid fa-circle-check"></i> Seu novo número e email alternativo foram vinculados como métodos de verificação.</div>
-      <p style="font-size:0.82rem; color:var(--text-secondary); text-align:center; margin-top:14px; line-height: 1.5;">Após finalizar, acesse sua conta ou redefina sua senha para receber o código de verificação.</p>
+
+      <div class="next-steps-card">
+        <div class="next-steps-icon"><i class="fa-solid fa-circle-info"></i></div>
+        <div class="next-steps-content">
+          <div class="next-steps-title">Próximos passos</div>
+          <div class="next-steps-text">Acesse sua conta ou redefina sua senha para receber o código de verificação através dos novos métodos vinculados.</div>
+        </div>
+      </div>
       <div id="step4NormalContent" class="mt-3">
         <button class="btn btn-success" id="btnSimulateFinish"><i class="fa-solid fa-rocket"></i> Finalizar Recuperação</button>
         <button class="btn btn-link mt-1" id="btnBackFromStep4"><i class="fa-solid fa-chevron-left"></i> Voltar</button>
