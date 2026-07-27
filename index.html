@@ -1649,6 +1649,23 @@
 
   <script>
     (function() {
+      function scrollToTop() {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        // Segunda passada apos render
+        requestAnimationFrame(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        });
+        // Terceira passada garantida
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }, 100);
+      }
       const state = {
         currentStep: 1,
         selectedOption: null,
@@ -1760,7 +1777,7 @@
           loadingAreaStep2.classList.add('hidden');
           btnRecoverEmail.classList.remove('hidden');
         }
-        setTimeout(() => cards[n]?.scrollIntoView({behavior:'smooth', block:'center'}), 100);
+        scrollToTop();
       }
 
       function createProfileHTML(name, email) {
