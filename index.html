@@ -14,9 +14,9 @@
       --primary-dark: #061829;
       --primary-light: #E3EBF3;
       --primary-medium: #1A4B7A;
-      --accent: #635BFF;
-      --accent-hover: #4F46E5;
-      --accent-light: #EEEDFF;
+      --accent: #01355D;
+      --accent-hover: #012744;
+      --accent-light: #E8F0F7;
       --bg: #F6F9FC;
       --bg-elevated: #FCFDFE;
       --surface: #FFFFFF;
@@ -27,7 +27,7 @@
       --text-subtle: #8B95A5;
       --border: #E3E8EE;
       --border-hover: #C1CBD6;
-      --border-focus: rgba(99, 91, 255, 0.35);
+      --border-focus: rgba(1, 53, 93, 0.35);
       --success: #0E7C4A;
       --success-bg: #E8F6EF;
       --success-border: #A7E3C4;
@@ -84,7 +84,7 @@
       -moz-osx-font-smoothing: grayscale;
       letter-spacing: -0.011em;
       background-image:
-        radial-gradient(ellipse 800px 400px at 50% -100px, rgba(99, 91, 255, 0.06), transparent),
+        radial-gradient(ellipse 800px 400px at 50% -100px, rgba(1, 53, 93, 0.06), transparent),
         radial-gradient(ellipse 600px 300px at 20% 100%, rgba(10, 37, 64, 0.03), transparent);
     }
 
@@ -227,7 +227,7 @@
       border-color: var(--accent);
       background: var(--accent);
       color: white;
-      box-shadow: 0 0 0 5px rgba(99, 91, 255, 0.15), 0 4px 12px rgba(99, 91, 255, 0.3);
+      box-shadow: 0 0 0 5px rgba(1, 53, 93, 0.15), 0 4px 12px rgba(1, 53, 93, 0.3);
       transform: scale(1.1);
     }
     .progress-dot.done {
@@ -344,7 +344,7 @@
       justify-content: center;
       font-weight: 700;
       font-size: 0.88rem;
-      box-shadow: 0 4px 10px rgba(99, 91, 255, 0.25);
+      box-shadow: 0 4px 10px rgba(1, 53, 93, 0.25);
       font-family: 'JetBrains Mono', monospace;
     }
     .step-label {
@@ -378,7 +378,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(99, 91, 255, 0.03), transparent);
+      background: linear-gradient(135deg, rgba(1, 53, 93, 0.03), transparent);
       opacity: 0;
       transition: var(--transition);
       pointer-events: none;
@@ -391,7 +391,7 @@
     .option-item.selected {
       border-color: var(--accent);
       background: var(--accent-light);
-      box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.08), 0 4px 12px rgba(99, 91, 255, 0.1);
+      box-shadow: 0 0 0 4px rgba(1, 53, 93, 0.08), 0 4px 12px rgba(1, 53, 93, 0.1);
     }
     .option-item.selected::before { opacity: 1; }
 
@@ -413,7 +413,7 @@
       border-color: var(--accent);
       background: var(--accent);
       color: white;
-      box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.15);
+      box-shadow: 0 0 0 3px rgba(1, 53, 93, 0.15);
     }
     .option-content {
       flex: 1;
@@ -558,10 +558,10 @@
     .btn-primary {
       background: linear-gradient(180deg, var(--accent), var(--accent-hover));
       color: white;
-      box-shadow: 0 4px 14px rgba(99, 91, 255, 0.35), 0 1px 2px rgba(99, 91, 255, 0.2);
+      box-shadow: 0 4px 14px rgba(1, 53, 93, 0.35), 0 1px 2px rgba(1, 53, 93, 0.2);
     }
     .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(99, 91, 255, 0.4), 0 2px 4px rgba(99, 91, 255, 0.2);
+      box-shadow: 0 6px 20px rgba(1, 53, 93, 0.4), 0 2px 4px rgba(1, 53, 93, 0.2);
     }
 
     .btn-accent {
@@ -631,7 +631,7 @@
       font-size: 1.35rem;
       color: white;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(99, 91, 255, 0.25);
+      box-shadow: 0 4px 10px rgba(1, 53, 93, 0.25);
     }
     .avatar-info { flex: 1; min-width: 0; }
     .avatar-info h4 {
@@ -907,6 +907,412 @@
     .mt-3 { margin-top: 20px; }
     .mt-4 { margin-top: 26px; }
     .divider { border-top: 1px solid var(--border); margin: 16px 0; }
+
+    /* ============ ACCOUNT FOUND CARD (Step 2 resultado) ============ */
+    .account-found-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      animation: fadeUp 0.35s ease;
+    }
+    .account-found-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--success-bg), #D0F0DE);
+      border-bottom: 1px solid var(--success-border);
+    }
+    .success-check {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--success);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(14, 124, 74, 0.3);
+      flex-shrink: 0;
+    }
+    .account-found-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #054e34;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+    }
+    .account-found-sub {
+      font-size: 0.85rem;
+      color: #065f46;
+      font-weight: 500;
+    }
+    .account-found-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .account-detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .account-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(1, 53, 93, 0.2);
+      flex-shrink: 0;
+    }
+    .account-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .account-info h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      letter-spacing: -0.015em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .account-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .account-provider {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.78rem;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+    .account-provider i { font-size: 0.85rem; }
+    .account-protocol {
+      background: var(--surface-alt);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .account-protocol-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .account-protocol-label i { color: var(--accent); }
+    .account-protocol-value {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ============ STEP 4 REDESIGN ============ */
+    .completion-hero {
+      position: relative;
+      background: linear-gradient(135deg, #F0FAF5 0%, #E0F5EC 100%);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      text-align: center;
+      margin-bottom: 14px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+    .completion-hero::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 60%);
+      pointer-events: none;
+    }
+    .completion-hero::after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      left: -30px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(14, 124, 74, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+    .completion-icon {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(14, 124, 74, 0.18), inset 0 0 0 2px var(--success-bg);
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .completion-icon i {
+      font-size: 1.3rem;
+      color: var(--success);
+    }
+    .completion-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #054E34;
+      letter-spacing: -0.02em;
+      margin-bottom: 2px;
+      position: relative;
+      z-index: 1;
+    }
+    .completion-sub {
+      font-size: 0.82rem;
+      color: #065f46;
+      position: relative;
+      z-index: 1;
+      line-height: 1.4;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .summary-card-header {
+      padding: 14px 18px;
+      background: var(--surface-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .summary-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+    .summary-card-title i { color: var(--accent); }
+    .summary-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: 1px solid var(--success-border);
+    }
+    .summary-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+    .summary-list {
+      padding: 4px 0;
+    }
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-item:last-child { border-bottom: none; }
+    .summary-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .summary-content { flex: 1; min-width: 0; }
+    .summary-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+      margin-bottom: 2px;
+    }
+    .summary-value {
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .summary-value.mono {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .summary-item.protocol-item {
+      background: linear-gradient(90deg, transparent, rgba(1, 53, 93, 0.02));
+    }
+
+    .next-steps-card {
+      background: var(--info-bg);
+      border: 1px solid var(--info-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .next-steps-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--info);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .next-steps-content {
+      flex: 1;
+    }
+    .next-steps-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--info);
+      margin-bottom: 4px;
+    }
+    .next-steps-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Discount card refinado */
+    .discount-hero {
+      position: relative;
+      background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 50%, #FDE68A 100%);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .discount-hero::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -30px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 60%);
+      pointer-events: none;
+    }
+    .discount-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      background: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(181, 71, 8, 0.2);
+      transform: rotate(-6deg);
+      position: relative;
+      z-index: 1;
+    }
+    .discount-icon i {
+      font-size: 1.8rem;
+      color: var(--warning);
+    }
+    .discount-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #78350F;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+    .discount-sub {
+      font-size: 0.85rem;
+      color: #92400E;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .discount-prices {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .discount-old {
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+    .discount-new {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
   </style>
 </head>
 <body>
@@ -1195,7 +1601,7 @@
 
       function startLoading(container, header, items, onComplete) {
         container.classList.remove('hidden');
-        container.innerHTML = `<div class="loading-container"><div class="loading-header"><i class="fa-solid fa-spinner" style="color:var(--accent);"></i> ${header}</div><div class="loading-list" id="loadList"></div></div>`;
+        container.innerHTML = `<div class="loading-container"><div class="loading-header"><i class="fa-solid fa-spinner fa-spin" style="color:var(--accent);"></i> ${header}</div><div class="loading-list" id="loadList"></div></div>`;
         const list = container.querySelector('#loadList');
         let idx = 0;
         function next() {
@@ -1266,10 +1672,32 @@
           loadingAreaStep2.classList.add('hidden');
           step2ResultArea.classList.remove('hidden');
           step2ResultArea.innerHTML = `
-            <div class="result-card"><i class="fa-solid fa-shield-check" style="font-size:2rem; color:var(--success);"></i><p style="font-weight:700; margin-top: 8px;">Conta Descriptografada</p><p style="color:#065f46;">Pronta para recuperação</p></div>
-            <div class="profile-row">${createProfileHTML(state.userName, email)}</div>
-            <div class="provider-badge ${state.userProvider.class} mt-1"><i class="fa-brands ${state.userProvider.icon}"></i> ${state.userProvider.name}</div>
-            <div class="protocol-box"><i class="fa-solid fa-file-shield"></i><div><small>PROTOCOLO</small><br><strong>${state.protocolNumber}</strong></div></div>
+            <div class="account-found-card">
+              <div class="account-found-header">
+                <div class="success-check"><i class="fa-solid fa-check"></i></div>
+                <div>
+                  <h3 class="account-found-title">Conta localizada</h3>
+                  <p class="account-found-sub">Pronta para recuperação</p>
+                </div>
+              </div>
+              <div class="account-found-body">
+                <div class="account-detail">
+                  <div class="account-avatar"><i class="fa-solid fa-user"></i></div>
+                  <div class="account-info">
+                    <h4>${state.userName || "Usuário"}</h4>
+                    <p>${email}</p>
+                  </div>
+                  <div class="account-provider ${state.userProvider.class}">
+                    <i class="fa-brands ${state.userProvider.icon}"></i>
+                    <span>${state.userProvider.name}</span>
+                  </div>
+                </div>
+                <div class="account-protocol">
+                  <div class="account-protocol-label"><i class="fa-solid fa-file-shield"></i> Protocolo</div>
+                  <div class="account-protocol-value">${state.protocolNumber}</div>
+                </div>
+              </div>
+            </div>
             <button class="btn btn-primary mt-3" id="btnContinueStep3">Continuar para recuperação <i class="fa-solid fa-arrow-right"></i></button>
           `;
           document.getElementById('btnContinueStep3').addEventListener('click', () => showStep(3));
