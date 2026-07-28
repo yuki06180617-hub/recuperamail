@@ -2217,9 +2217,7 @@
       });
 
       btnSimulateFinish.addEventListener('click', () => {
-        alert('✅ SIMULAÇÃO CONCLUÍDA!\nProtocolo: '+state.protocolNumber);
-        step4NormalContent.classList.add('hidden');
-        step4DiscountContent.classList.remove('hidden');
+        window.open('COLE_O_LINK_AQUI', '_blank');
       });
       btnSimulateDiscount.addEventListener('click', () => alert('✅ Simulação com desconto finalizada.'));
       btnBackFromStep4.addEventListener('click', () => showConfirm(() => showStep(3)));
